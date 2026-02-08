@@ -1,24 +1,26 @@
+import zustandPreferUseShallow from "./rules/zustand-prefer-use-shallow";
 import zustandRequireSelector from "./rules/zustand-require-selector";
 
 export const rules = {
   "zustand-require-selector": zustandRequireSelector,
+  "zustand-prefer-use-shallow": zustandPreferUseShallow,
 };
 
 const plugin = {
   rules,
-};
-
-export const configs = {
-  recommended: [
-    {
-      plugins: {
-        "state-management": plugin,
+  configs: {
+    recommended: [
+      {
+        plugins: {
+          "state-management": { rules },
+        },
+        rules: {
+          "state-management/zustand-require-selector": "error",
+          "state-management/zustand-prefer-use-shallow": "warn",
+        },
       },
-      rules: {
-        "state-management/zustand-require-selector": "error",
-      },
-    },
-  ],
+    ],
+  },
 };
 
 export default plugin;
