@@ -388,5 +388,3 @@ function OnlyA() {
 ```
 
 This is naturally stable because numbers/strings/booleans are compared by value.
-
----
