@@ -1,10 +1,7 @@
 import tsParser from "@typescript-eslint/parser";
 import { RuleTester } from "@typescript-eslint/rule-tester";
-import { createRequire } from "node:module";
 import * as vitest from "vitest";
 import rule from "../src/rules/zustand-require-selector";
-
-const require = createRequire(import.meta.url);
 
 RuleTester.afterAll = vitest.afterAll;
 RuleTester.describe = vitest.describe;
@@ -21,15 +18,30 @@ const ruleTester = new RuleTester({
   },
 });
 
+const setup = `
+  import { create } from "zustand";
+
+  const useStore = create(() => ({
+    count: 0,
+    checkout: { total: 0 },
+  }));
+
+  const useZustandStore = create(() => ({
+    total: 0,
+    checkout: { total: 0 },
+  }));
+
+  const selectTotal = (s: any) => s.total;
+`;
+
 ruleTester.run("zustand-require-selector", rule, {
   valid: [
-    { code: `useStore((s) => s.count);` },
+    { code: `${setup} useStore((s) => s.count);` },
+
+    { code: `${setup} useZustandStore((s) => s.total);` },
+
     {
-      code: `useZustandStore((s) => s.total);`,
-      options: [{ hooks: ["useZustandStore"] }],
-    },
-    {
-      code: `useZustandStore(selectTotal);`,
+      code: `${setup} useZustandStore(selectTotal);`,
       options: [
         {
           hooks: ["useZustandStore"],
@@ -40,15 +52,21 @@ ruleTester.run("zustand-require-selector", rule, {
     },
   ],
   invalid: [
-    { code: `useStore();`, errors: [{ messageId: "missingSelector" }] },
     {
-      code: `useZustandStore();`,
+      code: `${setup} useStore();`,
+      errors: [{ messageId: "missingSelector" }],
+    },
+    {
+      code: `${setup} useZustandStore();`,
       options: [{ hooks: ["useZustandStore"] }],
       errors: [{ messageId: "missingSelector" }],
     },
-    { code: `useStore((s) => s);`, errors: [{ messageId: "identity" }] },
     {
-      code: `useZustandStore((s) => s.checkout);`,
+      code: `${setup} useStore((s) => s);`,
+      errors: [{ messageId: "identity" }],
+    },
+    {
+      code: `${setup} useZustandStore((s) => s.checkout);`,
       options: [{ hooks: ["useZustandStore"], forbidDirectSlice: true }],
       errors: [{ messageId: "directSlice" }],
     },
