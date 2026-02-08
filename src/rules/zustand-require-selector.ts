@@ -1,7 +1,8 @@
 import { ESLintUtils, TSESTree } from "@typescript-eslint/utils";
 
 const createRule = ESLintUtils.RuleCreator(
-  (name) => `https://example.com/rules/${name}`,
+  (name) =>
+    `https://github.com/brunokelly/eslint-plugin-state-management/blob/main/README.md#zustand-require-selector`,
 );
 
 type Options = [
