@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-state-management",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A small ESLint plugin focused on state management hooks (Zustand-first)",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
