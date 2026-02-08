@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git+https://github.com/brunokelly/eslint-plugin-state-management.git"
   },
   "license": "MIT",
   "scripts": {
@@ -44,5 +44,9 @@
     "eslint": "^9.0.0",
     "typescript": "^5.4.0",
     "vitest": "^2.0.0"
-  }
+  },
+"homepage": "https://github.com/brunokelly/eslint-plugin-state-management#readme",
+"bugs": {
+  "url": "https://github.com/brunokelly/eslint-plugin-state-management/issues"
+}
 }
